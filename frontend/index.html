@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Legal AI | Professional Research Assistant</title>
+
+<style>
+
+:root {
+
+  --navy: #101b30;
+
+  --navy2: #223550;
+
+  --gold: #c99c50;
+
+  --bg: #f3f5f9;
+
+  --white: #ffffff;
+
+  --text: #17243a;
+
+  --muted: #69788c;
+
+  --border: #e1e7ef;
+
+}
+
+* {
+
+  box-sizing: border-box;
+
+}
+
+body {
+
+  margin: 0;
+
+  font-family: "Segoe UI", Arial, sans-serif;
+
+  background: var(--bg);
+
+  color: var(--text);
+
+}
+
+button, input {
+
+  font: inherit;
+
+}
+
+button {
+
+  cursor: pointer;
+
+  border: none;
+
+  transition: .2s;
+
+}
+
+button:disabled {
+
+  opacity: .5;
+
+  cursor: wait;
+
+}
+
+.layout {
+
+  display: grid;
+
+  grid-template-columns: 300px minmax(0, 1fr);
+
+  min-height: 100vh;
+
+}
+
+.sidebar {
+
+  background: var(--navy);
+
+  color: white;
+
+  padding: 26px 20px;
+
+  overflow-y: auto;
+
+}
+
+.brand {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 35px;
+
+}
+
+.logo {
+
+  width: 50px;
+
+  height: 50px;
+
+  background: #29364b;
+
+  color: var(--gold);
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 12px;
+
+  font-size: 29px;
+
+}
+
+.brand h1 {
+
+  font-family: Georgia, serif;
+
+  font-size: 27px;
+
+  margin: 0;
+
+}
+
+.brand p {
+
+  color: #aebbd0;
+
+  font-size: 10px;
+
+  letter-spacing: 1px;
+
+  margin: 5px 0;
+
+}
+
+.sidebar h3 {
+
+  color: #b7c5da;
+
+  text-transform: uppercase;
+
+  font-size: 12px;
+
+  letter-spacing: 1px;
+
+  margin-top: 26px;
+
+}
+
+.side-button {
+
+  width: 100%;
+
+  text-align: left;
+
+  padding: 13px;
+
+  border-radius: 9px;
+
+  background: var(--navy2);
+
+  color: white;
+
+  margin: 5px 0;
+
+}
+
+.side-button:hover {
+
+  background: #344d70;
+
+}
+
+.danger {
+
+  background: #792d38;
+
+}
+
+.danger:hover {
+
+  background: #9d3542;
+
+}
+
+.upload-box {
+
+  border: 1px dashed #65768d;
+
+  padding: 16px;
+
+  border-radius: 12px;
+
+  margin-top: 12px;
+
+}
+
+.upload-box input {
+
+  width: 100%;
+
+  color: white;
+
+  font-size: 12px;
+
+}
+
+.upload-box button {
+
+  width: 100%;
+
+  margin-top: 12px;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  background: var(--gold);
+
+  color: #111a29;
+
+  font-weight: 700;
+
+}
+
+.upload-box button:hover {
+
+  background: #e3b568;
+
+}
+
+\#quota {
+
+  margin-top: 12px;
+
+  color: #c6d1e0;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+  white-space: pre-line;
+
+}
+
+.document {
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid #394960;
+
+  font-size: 12px;
+
+  overflow-wrap: anywhere;
+
+}
+
+.document button {
+
+  margin-top: 8px;
+
+  background: #803440;
+
+  color: white;
+
+  padding: 7px 10px;
+
+  border-radius: 6px;
+
+}
+
+.note {
+
+  margin-top: 28px;
+
+  font-size: 12px;
+
+  color: #b5c2d4;
+
+  line-height: 1.7;
+
+}
+
+.main {
+
+  height: 100vh;
+
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+.header {
+
+  background: white;
+
+  border-bottom: 1px solid var(--border);
+
+  padding: 20px 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+}
+
+.header h2 {
+
+  margin: 0;
+
+  font-family: Georgia, serif;
+
+  font-size: 24px;
+
+}
+
+.header p {
+
+  margin: 6px 0 0;
+
+  font-size: 12px;
+
+  color: var(--muted);
+
+}
+
+.status {
+
+  background: #fff0f0;
+
+  color: #b72d3c;
+
+  padding: 9px 13px;
+
+  border-radius: 30px;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+
+}
+
+.status.online {
+
+  background: #e5f7ed;
+
+  color: #16854b;
+
+}
+
+.workspace {
+
+  width: 100%;
+
+  max-width: 1100px;
+
+  margin: auto;
+
+  padding: 22px;
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+.welcome {
+
+  text-align: center;
+
+  padding: 20px 0;
+
+}
+
+.welcome .symbol {
+
+  font-size: 37px;
+
+  color: var(--gold);
+
+}
+
+.welcome h1 {
+
+  font-family: Georgia, serif;
+
+  font-size: 31px;
+
+  margin: 10px 0;
+
+}
+
+.welcome p {
+
+  color: var(--muted);
+
+  font-size: 14px;
+
+}
+
+.suggestions {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 20px;
+
+}
+
+.suggestions button {
+
+  padding: 10px 15px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 24px;
+
+  color: var(--text);
+
+}
+
+.suggestions button:hover {
+
+  border-color: var(--gold);
+
+  color: #a4742d;
+
+}
+
+.messages {
+
+  flex: 1;
+
+  overflow-y: auto;
+
+  min-height: 150px;
+
+  padding: 12px 3px;
+
+}
+
+.message {
+
+  display: flex;
+
+  margin: 18px 0;
+
+}
+
+.message.user {
+
+  justify-content: flex-end;
+
+}
+
+.bubble {
+
+  max-width: 85%;
+
+  background: white;
+
+  padding: 18px 20px;
+
+  border-radius: 14px;
+
+  border: 1px solid var(--border);
+
+  box-shadow: 0 4px 14px #16243b0d;
+
+}
+
+.user .bubble {
+
+  background: var(--navy2);
+
+  color: white;
+
+}
+
+.speaker {
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: .5px;
+
+  color: #a47733;
+
+  margin-bottom: 10px;
+
+}
+
+.user .speaker {
+
+  color: #d5dfed;
+
+}
+
+.answer {
+
+  font-size: 14px;
+
+  line-height: 1.8;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+
+}
+
+.citations {
+
+  border-top: 1px solid var(--border);
+
+  padding-top: 12px;
+
+  margin-top: 15px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+}
+
+.composer {
+
+  background: white;
+
+  padding: 13px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 13px;
+
+}
+
+.composer form {
+
+  display: flex;
+
+  gap: 10px;
+
+}
+
+.composer input {
+
+  flex: 1;
+
+  min-width: 0;
+
+  border: none;
+
+  outline: none;
+
+  padding: 14px;
+
+  color: var(--text);
+
+}
+
+.composer button {
+
+  padding: 12px 22px;
+
+  border-radius: 9px;
+
+  background: var(--navy);
+
+  color: white;
+
+}
+
+.composer button:hover {
+
+  background: var(--navy2);
+
+}
+
+\#error {
+
+  color: #b42332;
+
+  font-size: 12px;
+
+  margin-top: 8px;
+
+}
+
+.disclaimer {
+
+  text-align: center;
+
+  padding: 12px;
+
+  font-size: 11px;
+
+  color: var(--muted);
+
+}
+
+.hidden {
+
+  display: none;
+
+}
+
+@media(max-width: 800px) {
+
+  .layout {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .sidebar {
+
+    padding: 17px;
+
+  }
+
+  .brand {
+
+    margin-bottom: 15px;
+
+  }
+
+  .main {
+
+    height: 75vh;
+
+    min-height: 550px;
+
+  }
+
+  .header {
+
+    padding: 15px;
+
+  }
+
+  .header h2 {
+
+    font-size: 19px;
+
+  }
+
+  .workspace {
+
+    padding: 12px;
+
+  }
+
+  .bubble {
+
+    max-width: 96%;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+  <div class="brand">
+
+    <div class="logo">⚖</div>
+
+    <div>
+
+      <h1>Legal AI</h1>
+
+      <p>PROFESSIONAL RESEARCH ASSISTANT</p>
+
+    </div>
+
+  </div>
+
+  <h3>Conversation</h3>
+
+  <button id="newChat" class="side-button">
+
+    ＋ New conversation
+
+  </button>
+
+  <button id="clearHistory" class="side-button danger">
+
+    Clear chat history
+
+  </button>
+
+  <h3>Legal Document Library</h3>
+
+  <div class="upload-box">
+
+    <input
+
+      id="file"
+
+      type="file"
+
+      accept=".pdf,.docx,.txt"
+
+    >
+
+    <button id="upload">
+
+      ↑ Add document (optional)
+
+    </button>
+
+    <div id="quota">Checking storage...</div>
+
+  </div>
+
+  <div id="files"></div>
+
+  <p class="note">
+
+    Documents copied into backend/data/ are indexed automatically. Uploading here is optional. Local testing only. No secure user accounts
+
+    are configured. Do not upload confidential
+
+    legal documents.
+
+  </p>
+
+</aside>
+
+<main class="main">
+
+<header class="header">
+
+  <div>
+
+    <h2>Legal & Policy AI Assistant</h2>
+
+    <p>
+
+      Legal Bot · Legal Research · Legal Education
+
+    </p>
+
+  </div>
+
+  <span id="status" class="status">
+
+    ● Connecting
+
+  </span>
+
+</header>
+
+<div class="workspace">
+
+  <section class="welcome" id="welcome">
+
+    <div class="symbol">⚖</div>
+
+    <h1>Research with confidence</h1>
+
+    <p>
+
+      Search the legal documents in your library with
+
+      source-backed information.
+
+    </p>
+
+    <div class="suggestions">
+
+      <button data-question="What is Article 21?">
+
+        Article 21
+
+      </button>
+
+      <button data-question="What are Fundamental Rights?">
+
+        Fundamental Rights
+
+      </button>
+
+      <button data-question="Explain the Preamble of India">
+
+        The Preamble
+
+      </button>
+
+    </div>
+
+  </section>
+
+  <div
+
+    id="messages"
+
+    class="messages"
+
+    aria-live="polite"
+
+  ></div>
+
+  <div class="composer">
+
+    <form id="askForm">
+
+      <input
+
+        id="query"
+
+        type="text"
+
+        maxlength="3000"
+
+        required
+
+        placeholder="Enter your legal query here..."
+
+      >
+
+      <button id="send" type="submit">
+
+        Submit Query
+
+      </button>
+
+    </form>
+
+    <div id="error"></div>
+
+  </div>
+
+  <div class="disclaimer">
+
+    Educational and research purposes only.
+
+    Verify information against current official sources.
+
+  </div>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+const API = location.port === "8000"
+
+  ? ""
+
+  : "http://127.0.0.1:8000";
+
+const el = id => document.getElementById(id);
+
+const SESSION_KEY = "legal_ai_session";
+
+function createSession() {
+
+  const id = window.crypto && crypto.randomUUID
+
+    ? crypto.randomUUID().replace(/-/g, "")
+
+    : Date.now().toString(36) +
+
+      Math.random().toString(36).slice(2);
+
+  return "session_" + id;
+
+}
+
+let session =
+
+  localStorage.getItem(SESSION_KEY) ||
+
+  createSession();
+
+localStorage.setItem(SESSION_KEY, session);
+
+async function api(path, options = {}) {
+
+  let response;
+
+  try {
+
+    response = await fetch(API + path, options);
+
+  } catch {
+
+    throw Error(
+
+      "Cannot connect to backend. Start Uvicorn " +
+
+      "and open http://127.0.0.1:8000/app"
+
+    );
+
+  }
+
+  const raw = await response.text();
+
+  let data;
+
+  try {
+
+    data = JSON.parse(raw);
+
+  } catch {
+
+    throw Error(
+
+      "Invalid server response. " +
+
+      "Check your VS Code terminal."
+
+    );
+
+  }
+
+  if (!response.ok) {
+
+    throw Error(
+
+      typeof data.detail === "string"
+
+        ? data.detail
+
+        : JSON.stringify(
+
+            data.detail || "Request failed"
+
+          )
+
+    );
+
+  }
+
+  return data;
+
+}
+
+function showMessage(role, content, citations = []) {
+
+  el("welcome").classList.add("hidden");
+
+  const message = document.createElement("div");
+
+  message.className =
+
+    "message " +
+
+    (role === "user" ? "user" : "assistant");
+
+  const bubble = document.createElement("div");
+
+  bubble.className = "bubble";
+
+  const speaker = document.createElement("div");
+
+  speaker.className = "speaker";
+
+  speaker.textContent =
+
+    role === "user"
+
+      ? "YOU"
+
+      : "LEGAL AI ASSISTANT";
+
+  const answer = document.createElement("div");
+
+  answer.className = "answer";
+
+  answer.textContent = content;
+
+  bubble.append(speaker, answer);
+
+  if (citations.length) {
+
+    const sources = document.createElement("div");
+
+    sources.className = "citations";
+
+    sources.textContent =
+
+      "Sources: " +
+
+      citations.map(c =>
+
+        "[" + c.number + "] " +
+
+        c.filename +
+
+        (c.page ? " · Page " + c.page : "")
+
+      ).join(" | ");
+
+    bubble.append(sources);
+
+  }
+
+  message.append(bubble);
+
+  el("messages").append(message);
+
+  if (!window.restoringHistory) el("messages").scrollTop = el("messages").scrollHeight;
+
+}
+
+// Refresh the library and conversation without repeatedly rebuilding the chat.
+
+let lastHistorySignature = null;
+
+let refreshInProgress = false;
+
+let activeSessionVersion = 0;
+let submitting = false;
+let refreshQueued = false;
+
+async function refresh() {
+
+  if (refreshInProgress) { refreshQueued = true; return; }
+
+  refreshInProgress = true;
+
+  const currentSession = session;
+
+  const currentVersion = activeSessionVersion;
+
+  try {
+
+    const params = "?session_id=" + encodeURIComponent(currentSession);
+
+    const [documents, history] = await Promise.all([
+
+      api("/documents" + params),
+
+      api("/history" + params)
+
+    ]);
+
+    if (currentSession !== session || currentVersion !== activeSessionVersion) return;
+
+    el("status").textContent = "● API Online";
+
+    el("status").classList.add("online");
+
+    const mb = value => (Number(value || 0) / 1048576).toFixed(2);
+
+    el("quota").textContent =
+
+      "Session: " + mb(documents.session_bytes) + " / " +
+
+      mb(documents.max_session_bytes) + " MB\nTotal: " +
+
+      mb(documents.total_bytes) + " / " +
+
+      mb(documents.max_total_bytes) + " MB";
+
+    // Rebuild document controls only when the document list changes.
+
+    const files = Array.isArray(documents.documents) ? documents.documents : [];
+
+    const fileSignature = JSON.stringify(files);
+
+    if (el("files").dataset.signature !== fileSignature) {
+
+      el("files").dataset.signature = fileSignature;
+
+      el("files").replaceChildren();
+
+      const listed = new Set();
+
+      for (const file of files) {
+
+        if (listed.has(file.id)) continue;
+
+        listed.add(file.id);
+
+        const row = document.createElement("div");
+
+        row.className = "document";
+
+        const name = document.createElement("div");
+
+        name.textContent = file.filename + " (" + mb(file.size) + " MB)";
+
+        const remove = document.createElement("button");
+
+        remove.textContent = "Delete document";
+
+        remove.onclick = async () => {
+
+          if (!confirm("Delete " + file.filename + "?")) return;
+
+          try {
+
+            await api("/documents/" + encodeURIComponent(file.id) +
+
+              "?session_id=" + encodeURIComponent(session), {method: "DELETE"});
+
+            await refresh();
+
+          } catch (error) {
+
+            el("error").textContent = error.message;
+
+          }
+
+        };
+
+        row.append(name, remove);
+
+        el("files").append(row);
+
+      }
+
+    }
+
+    const messages = Array.isArray(history.messages) ? history.messages : [];
+
+    const signature = currentSession + ":" + JSON.stringify(messages);
+
+    if (!submitting && lastHistorySignature !== signature) {
+
+      lastHistorySignature = signature;
+
+      const panel = el("messages");
+
+      const nearBottom = panel.scrollHeight - panel.scrollTop - panel.clientHeight < 80;
+
+      const previousScroll = panel.scrollTop;
+
+      window.restoringHistory = true;
+      panel.replaceChildren();
+
+      el("welcome").classList.toggle("hidden", messages.length > 0);
+
+      for (const message of messages) {
+
+        showMessage(message.role, message.content, message.citations || []);
+
+      }
+
+      window.restoringHistory = false;
+      panel.scrollTop = nearBottom ? panel.scrollHeight : previousScroll;
+
+    }
+
+    el("error").textContent = "";
+
+  } catch (error) {
+
+    el("status").textContent = "● API Offline";
+
+    el("status").classList.remove("online");
+
+    el("error").textContent = error.message;
+
+  } finally {
+
+    refreshInProgress = false;
+    if (refreshQueued) {
+      refreshQueued = false;
+      queueMicrotask(refresh);
+    }
+
+  }
+
+}
+
+el("askForm").addEventListener(
+
+  "submit",
+
+  async event => {
+
+    event.preventDefault();
+
+    const question = el("query").value.trim();
+
+    if (!question || submitting) return;
+    submitting = true;
+
+    el("query").value = "";
+
+    el("send").disabled = true;
+
+    el("error").textContent = "";
+
+    const requestSession = session;
+    showMessage("user", question);
+
+    try {
+
+      const result = await api("/ask", {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify({
+
+          query: question,
+
+          session_id: requestSession
+
+        })
+
+      });
+
+      if (session === requestSession) showMessage(
+
+        "assistant",
+
+        result.answer,
+
+        result.citations || []
+
+      );
+
+    } catch (error) {
+
+      el("error").textContent = error.message;
+
+    } finally {
+
+      submitting = false;
+      lastHistorySignature = null;
+      if (session === requestSession) await refresh();
+      el("send").disabled = false;
+
+      el("query").focus();
+
+    }
+
+  }
+
+);
+
+el("upload").onclick = async () => {
+
+  const file = el("file").files[0];
+
+  if (!file) {
+
+    el("error").textContent =
+
+      "Please choose a document.";
+
+    return;
+
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+
+    el("error").textContent =
+
+      "Maximum file size is 10 MB.";
+
+    return;
+
+  }
+
+  const form = new FormData();
+
+  form.append("session_id", session);
+
+  form.append("file", file);
+
+  el("upload").disabled = true;
+
+  el("error").textContent =
+
+    "Uploading and processing document...";
+
+  try {
+
+    const result = await api("/upload", {
+
+      method: "POST",
+
+      body: form
+
+    });
+
+    el("file").value = "";
+
+    await refresh();
+
+    el("error").textContent =
+
+      "Saved " +
+
+      result.filename +
+
+      " successfully.";
+
+  } catch (error) {
+
+    el("error").textContent = error.message;
+
+  } finally {
+
+    el("upload").disabled = false;
+
+  }
+
+};
+
+el("newChat").onclick = () => {
+
+  session = createSession();
+
+  activeSessionVersion++;
+  submitting = false;
+
+  lastHistorySignature = null;
+
+  el("messages").replaceChildren();
+
+  el("welcome").classList.remove("hidden");
+
+  localStorage.setItem(SESSION_KEY, session);
+
+  refresh();
+
+};
+
+el("clearHistory").onclick = async () => {
+
+  if (!confirm(
+
+    "Clear this conversation history?"
+
+  )) return;
+
+  try {
+
+    await api(
+
+      "/history?session_id=" +
+
+      encodeURIComponent(session),
+
+      { method: "DELETE" }
+
+    );
+
+    lastHistorySignature = null;
+    await refresh();
+
+  } catch (error) {
+
+    el("error").textContent = error.message;
+
+  }
+
+};
+
+document.querySelectorAll(
+
+  "[data-question]"
+
+).forEach(button => {
+
+  button.onclick = () => {
+
+    el("query").value =
+
+      button.dataset.question;
+
+    el("askForm").requestSubmit();
+
+  };
+
+});
+
+refresh();
+
+</script>
+<style>
+  .alan-watermark {
+    position: fixed;
+    bottom: 12px;
+    right: 18px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: #64748b;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 1000;
+  }
+</style>
+
+<div class="alan-watermark">alan</div>
+
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+# Python virtual environments
+venv/
+.venv/
+venv_old/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editor and operating system
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.log
